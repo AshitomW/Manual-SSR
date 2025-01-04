@@ -65,6 +65,7 @@ function MenuItem({ pizza }) {
 }
 
 const htmlFile = readFileSync(`${__dirname}/index.html`, "utf-8");
+const clientJS = readFileSync(`${__dirname}/client.js`, "utf-8");
 
 const server = createServer((request, response) => {
   const pathname = parse(request.url, true).pathname;
@@ -82,8 +83,13 @@ const server = createServer((request, response) => {
     response.end(html);
   } else if (pathname === "/login") {
     response.end("Prepare to Log In");
+  } else if (pathname === "/client.js") {
+    response.writeHead(200, {
+      "content-type": "application/javascript",
+    });
+    response.end(clientJS);
   } else {
-    response.end("Page Not Found");
+    response.end("URL Not Found");
   }
 });
 
